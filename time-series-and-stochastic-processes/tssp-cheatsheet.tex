@@ -62,11 +62,11 @@
 \subsection*{Black-Scholes model}
 \Eq{
     \begin{cases}
-    dS_t = \mu S_t dt + \delta S_t dW_t \\
+    dS_t = \mu S_t dt + \sigma S_t dW_t \\
     dB_t = rB_t dt
     \end{cases}
     \begin{cases}
-    S_t = S_0 \cdot e^{\mu t} \cdot e^{\delta W_t - \frac{\delta^2}{2}t} \\
+    S_t = S_0 \cdot e^{\mu t} \cdot e^{\sigma W_t - \frac{\sigma^2}{2}t} \\
     B_t = B_0 \cdot e ^ {r t}
     \end{cases}
 }
@@ -78,7 +78,7 @@ X_0 = e^{-T r}\Exp{X_T}
 \end{multicols}
 
 \begin{multicols}{2}
-    \subsection*{Limits in L2}
+    \subsection*{Limits}
 Series $R_n \xrightarrow{L^2} R$ if
 \Eq{
 \begin{cases}
@@ -95,6 +95,10 @@ R_n \xrightarrow{L^2} \mu \\
 R_n \xrightarrow{L^1} \mu \\
 R_n \xrightarrow{P} \mu \\
 \end{cases}
+}
+\Eq{
+    &\operatorname{plim} X_n = X \text{ s. t. } \\
+    &\lim\limits_{n \to +\infty} \mathcal{P}(|X_n - X| > \epsilon) = 0
 }
 \end{multicols}
 
