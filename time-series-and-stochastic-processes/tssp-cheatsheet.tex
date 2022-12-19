@@ -1,0 +1,95 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{amsfonts}
+\usepackage{amsmath, mathtools}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{multicol}
+\usepackage[a4paper, total={7in, 10in}]{geometry}
+% add cache=false in case of trouble
+\usepackage[outputdir=.out]{minted}
+\graphicspath{ {./pics/} }
+
+\def\Var#1{{\operatorname{\mathbb{V}ar} \left({#1}\right)}}
+\def\Cov#1{{\operatorname{\mathbb{C}ov} \left({#1}\right)}}
+\def\Exp#1{{\operatorname{\mathbb{E}} \left({#1}\right)}}
+\def\Eq#1{{\begin{gather}\begin{split} #1 \end{split}\end{gather}}}
+
+\begin{document}
+
+\begin{multicols}{2}
+    \subsection*{Ito's process}
+    \Eq{
+        &\int_0^t A_u dW_u \iff A_t dW_t \\
+        &\int_0^t B_u du \iff B_t dt \\
+        &X_t = \underbrace{X_0 + \int_0^t A_u du + \int_0^t B_u dW_u}_{\text{Full form}}\\
+        &dX_t = \underbrace{A_t dt + B_t dW_t}_{\text{Short form}}
+    }
+    \begin{center}
+    \begin{tabular}{l l}
+    $\int_0^t dW_u = W_t$ &
+    $\int_0^t W_u dW_u = \frac{W_t^2 - t}{2}$
+    \end{tabular}
+    \end{center}
+    \subsection*{Properties}
+    $I_t$ - martingale, $\Delta \geq 0 \implies \Exp{I_{t + \Delta} | \mathbb{F}_t} = I_t$
+    \begin{center}
+    \begin{tabular}{l l}
+    $I_t = \int_0^t A_u dW_u$ & $J_t = \int_0^t B_u dW_u$ \\
+    \end{tabular}
+    \end{center}
+    \Eq
+    {
+        &\Cov{ I_t, J_t } = \int_0^t \Exp{A_u, B_u} du \\
+        &\Var{ I_t } = \int_0^t \Exp{A_u^2} du \\
+        &\Exp{\int_0^t A_u du} = \int_0^t \Exp{A_u} du \\
+        &\Exp{\int_0^t A_u dW_u} = 0
+    }
+\end{multicols}
+\subsection*{Ito's Lemma} 
+\Eq{
+    &dX_t = A_t dt + B_t dW_t \\
+    &Y_t = f(X_t, t, W_t) \\
+    & \implies \\
+    &dY_t = \frac{\delta f}{\delta t} dt + \frac{\delta f}{\delta W}dW_t + \frac{\delta f}{\delta X}dX_t + \frac{1}{2}\left[\frac{\delta^2 f}{\delta X^2}(dX_t)^2 + \frac{\delta^2 f}{\delta W^2}(dW_t)^2 + 2\frac{\delta^2 f}{\delta X \delta W}dX_t dW_t\right]\\
+    &\begin{cases}
+        dW_t \cdot dW_t = dt\\
+        dt \cdot dt = 0\\
+        dW_t \cdot dt = 0
+    \end{cases}
+}
+\subsection*{Black-Scholes model}
+\Eq{
+    \begin{cases}
+    dS_t = \mu S_t dt + \delta S_t dW_t \\
+    dB_t = rB_t dt
+    \end{cases}
+    \implies
+    \begin{cases}
+    S_t = S_0 \cdot e^{\mu t} \cdot e^{\delta W_t - \frac{\delta^2}{2}t} \\
+    B_t = B_0 \cdot e ^ {r t}
+    \end{cases}
+}
+
+\begin{multicols}{2}
+    \subsection*{Discounting}
+\Eq{
+X_0 = e^{-T r}\Exp{X_T}
+}
+
+    \subsection*{Limits in L2}
+\Eq{
+\begin{cases}
+\Exp{R_n} \rightarrow \mu \\
+\Var{R_n} \rightarrow 0 \\
+\end{cases}
+\implies
+\begin{cases}
+R_n \xrightarrow{I^2} \mu \\
+R_n \xrightarrow{L'} \mu \\
+R_n \xrightarrow{P} \mu \\
+\end{cases}
+}
+\end{multicols}
+
+\end{document}
