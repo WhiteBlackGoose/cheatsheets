@@ -58,35 +58,41 @@
         dW_t \cdot dt = 0
     \end{cases}
 }
+\begin{multicols}{2}
 \subsection*{Black-Scholes model}
 \Eq{
     \begin{cases}
     dS_t = \mu S_t dt + \delta S_t dW_t \\
     dB_t = rB_t dt
     \end{cases}
-    \implies
     \begin{cases}
     S_t = S_0 \cdot e^{\mu t} \cdot e^{\delta W_t - \frac{\delta^2}{2}t} \\
     B_t = B_0 \cdot e ^ {r t}
     \end{cases}
 }
 
-\begin{multicols}{2}
     \subsection*{Discounting}
 \Eq{
 X_0 = e^{-T r}\Exp{X_T}
 }
+\end{multicols}
 
+\begin{multicols}{2}
     \subsection*{Limits in L2}
+Series $R_n \xrightarrow{L^2} R$ if
 \Eq{
+\begin{cases}
+\forall n : \Exp{R_n^2} < +\infty \\
+\lim\limits_{n \to +\infty} \Exp{(R_n - R)^2} = 0 \\
+\end{cases} \\
 \begin{cases}
 \Exp{R_n} \rightarrow \mu \\
 \Var{R_n} \rightarrow 0 \\
 \end{cases}
 \implies
 \begin{cases}
-R_n \xrightarrow{I^2} \mu \\
-R_n \xrightarrow{L'} \mu \\
+R_n \xrightarrow{L^2} \mu \\
+R_n \xrightarrow{L^1} \mu \\
 R_n \xrightarrow{P} \mu \\
 \end{cases}
 }
