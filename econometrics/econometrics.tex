@@ -1,0 +1,105 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{multicol}
+\usepackage[a4paper, total={7.5in, 10.5in}]{geometry}
+% add cache=false in case of trouble
+\usepackage[outputdir=.out]{minted}
+\graphicspath{ {./pics/} }
+
+\def\Var#1{{\operatorname{\mathbb{V}ar} \left({#1}\right)}}
+\def\Cov#1{{\operatorname{\mathbb{C}ov} \left({#1}\right)}}
+\def\Exp#1{{\operatorname{\mathbb{E}} \left({#1}\right)}}
+\def\Eq#1{{\begin{gather}\begin{split} #1 \end{split}\end{gather}}}
+
+\begin{document}
+
+\begin{multicols}{2}
+
+\subsection*{Simple tests}
+
+\Eq{
+    \beta &\in \hat{\beta} \pm s.e.(\hat{\beta}) \cdot t_{crit} \\
+    F_{k, n - k - 1} &= \frac{SSE/k}{RSS / (n - k - 1)} \\
+    &= \frac{R^2 / k}{(1 - R^2)(n - k - 1)} \\
+    t &= \frac{\hat{\beta}_2 - \beta^0_2}{s.e.(\hat{\beta}_2)}, df = n-2 \\
+    F_{q,n-k} &= \frac{(SSR_r - SSR_{ur}) / q}{SSR_{ur} / (n-k)} = \frac{(R^2_{ur} - R_r^2) / q}{(1 - R^2_{ur})/(n - k)} \\
+    &\text{r - restricted, ur - unrestricted, } \\
+    &\text{q - number of linear restrictions on coefs} \\
+    \chi^2(1) &= \frac{n}{2}\log\frac{SSR_2}{SSR_1} \\
+    &\text{Chow breakpoint test} \\
+    F_{k(m-1),n-m k} &= \frac{(SSR_0 - \sum SSR_i) / (k(m - 1))}{\sum SSR_i / (n - m k)} \\
+}
+
+\subsection*{Formulas}
+
+\Eq{
+    \hat{\beta}_1 &= \bar{Y} - \hat{\beta}_2 \bar{X} \\
+    \hat{\beta}_2 &= \frac{\sum (X_i - \bar{X})(Y_i - \beta{Y})}{\sum (X_i - \bar{X})^2} \\
+    \hat{\beta}_2 &= \frac{\sum X_i Y_i}{\sum X_i^2} \text{ - no intercept} \\
+    SST &= \sum (Y_i - \bar{Y})^2 \text{, sum of squares total} \\
+    SSE &= \sum (\hat{Y_i} - \bar{Y})^2 \text{, sum of squares explained} \\
+    SSR &= \sum (\hat{Y_i} - Y_i)^2 \text{, sum of squares } \\
+    R^2 &= \frac{SSE}{SST} = \frac{SST - SSR}{SST} \\
+    R^2_{adj} &= 1 - \frac{SSR/(n - k)}{SST / (n - 1)} \\
+    r_{Y,\hat{Y}} &= \sqrt{R^2} \text{ - correlation} \\
+    p &= F(Z);\text{  } Z = \beta_1 + \beta_2 X_3 + \dots + \beta_k X_k \\
+    f(Z) &= \frac{dp}{dZ} = \frac{1}{\sqrt{2 \pi}}e^{-0.5Z^2}
+}
+
+\end{multicols}
+
+\begin{multicols}{2}
+\subsection*{White test heteroscedascticty test}
+\Eq{
+    H_0: &\text{ homoscedastic} \\
+}
+\begin{itemize}
+\item Regress against variables, their squares, and their cross-products, no dup
+\item Calculate $n R^2$ using $R^2$ from this regression. It is $\sim \chi_{n-1}$, where $n$ - number of regressors, including constant.
+\end{itemize}
+
+\subsection*{Breusch-Pagan heteroscedascticty test}
+Needs less variables.
+\Eq{
+    H_0: &\text{ homoscedastic} \\
+}
+\begin{itemize}
+\item Regress against variables
+\item Calculate $n R^2$ using $R^2$ from this regression. It is $\sim \chi_{n-1}$, where $n$ - number of regressors, including constant.
+\end{itemize}
+
+\subsection*{Goldfeld-Quandt heteroscedascticty test}
+Split into three ranges: $n_1$ with smallest $X$, $n_2$ with highest $X$, and the rest.
+\Eq{
+F_{n_2-k,n_1-k} = \frac{RSS_2/(n_2 - k)}{RSS_1/(n_1 - k)}
+}
+\subsection*{Gauss-Markov conditions}
+\begin{enumerate}
+\item $\Exp{u_i} = 0$
+\item $\sigma_{u_i}^2 = \sigma_{u_j}^2$
+\item $u_i$ and $u_j$ are independent $\iff i \neq j$
+\item $u_i$ is independent of $X$
+\end{enumerate}
+\subsubsection*{ 4th condition violation }
+\begin{itemize}
+\item Reasons: measurement errors, endogenity
+\item Consequences: inconsistent OLS estimators, standard stats wrongly calculated, tests invalid
+\item Remedial measures: instrumental variables. Find another variable independently dsitributed with the disturbance term, but correlated with the endogenous explanatory variable
+\item Detection: Durbin-Wu-Hausman test (standard or Davidson-McKinnon version a a)
+\end{itemize}
+\end{multicols}
+
+\begin{multicols}{2}
+\subsection*{Maximum likelihood estimation}
+\Eq{
+    f(Y_j) &= \frac{1}{\sigma\sqrt{2 \pi}}e^{-0.5\left(\frac{Y_i - \beta_1 - \beta_2 X_i}{\sigma}\right)} \\
+    \log L &= log\left(\prod f(Y_i)\right) = n \log\left(\frac{1}{\sigma \sqrt{2\pi}}\right) - \frac{\sigma^{-2}}{2} Z \\
+    R^2_{\text{pseudo}} &= 1 - \frac{\log L}{\log L_0}; LR = 2(\log L - \log L_0) \\
+    &\text{where $L_0$ is the likelihood with only intercept} \\
+}
+\end{multicols}
+\end{document}
