@@ -23,8 +23,7 @@
 
 \Eq{
     \beta &\in \hat{\beta} \pm s.e.(\hat{\beta}) \cdot t_{crit} \\
-    F_{k, n - k - 1} &= \frac{SSE/k}{RSS / (n - k - 1)} \\
-    &= \frac{R^2 / k}{(1 - R^2)(n - k - 1)} \\
+    F_{k, n - k - 1} &= \frac{SSE/k}{RSS / (n - k - 1)} = \frac{R^2 / k}{(1 - R^2)(n - k - 1)} \\
     t &= \frac{\hat{\beta}_2 - \beta^0_2}{s.e.(\hat{\beta}_2)}, df = n-2 \\
     F_{q,n-k} &= \frac{(SSR_r - SSR_{ur}) / q}{SSR_{ur} / (n-k)} = \frac{(R^2_{ur} - R_r^2) / q}{(1 - R^2_{ur})/(n - k)} \\
     &\text{r - restricted, ur - unrestricted, } \\
@@ -37,17 +36,17 @@
 \subsection*{Formulas}
 
 \Eq{
-    \hat{\beta}_1 &= \bar{Y} - \hat{\beta}_2 \bar{X} \\
-    \hat{\beta}_2 &= \frac{\sum (X_i - \bar{X})(Y_i - \beta{Y})}{\sum (X_i - \bar{X})^2} \\
+    \hat{\beta}_1 &= \bar{Y} - \hat{\beta}_2 \bar{X}; \hat{\beta}_2 = \frac{\sum (X_i - \bar{X})(Y_i - \beta{Y})}{\sum (X_i - \bar{X})^2} \\
     \hat{\beta}_2 &= \frac{\sum X_i Y_i}{\sum X_i^2} \text{ - no intercept} \\
     SST &= \sum (Y_i - \bar{Y})^2 \text{, sum of squares total} \\
     SSE &= \sum (\hat{Y_i} - \bar{Y})^2 \text{, sum of squares explained} \\
     SSR &= \sum (\hat{Y_i} - Y_i)^2 \text{, sum of squares } \\
-    R^2 &= \frac{SSE}{SST} = \frac{SST - SSR}{SST} \\
+    R^2 &= \frac{SSE}{SST} = \frac{SST - SSR}{SST}; r_{Y,\hat{Y}} = \sqrt{R^2} \text{ - correlation} \\
     R^2_{adj} &= 1 - \frac{SSR/(n - k)}{SST / (n - 1)} \\
-    r_{Y,\hat{Y}} &= \sqrt{R^2} \text{ - correlation} \\
     p &= F(Z);\text{  } Z = \beta_1 + \beta_2 X_3 + \dots + \beta_k X_k \\
-    f(Z) &= \frac{dp}{dZ} = \frac{1}{\sqrt{2 \pi}}e^{-0.5Z^2}
+    F(Z) &= \frac{1}{1 + e^{-Z}}; f(Z) = \frac{dp}{dZ} = \frac{1}{\sqrt{2 \pi}}e^{-0.5Z^2} \\
+    Logit &= \prod Pr(Y = Y_j | X_j, \beta) \text{ - max over $\beta$} \\
+    P(Y = 1) &= F(Y); P(Y = 0) = 1 - F(Y)
 }
 
 \end{multicols}
@@ -100,6 +99,15 @@ F_{n_2-k,n_1-k} = \frac{RSS_2/(n_2 - k)}{RSS_1/(n_1 - k)}
     \log L &= log\left(\prod f(Y_i)\right) = n \log\left(\frac{1}{\sigma \sqrt{2\pi}}\right) - \frac{\sigma^{-2}}{2} Z \\
     R^2_{\text{pseudo}} &= 1 - \frac{\log L}{\log L_0}; LR = 2(\log L - \log L_0) \\
     &\text{where $L_0$ is the likelihood with only intercept} \\
+}
+\subsection*{MLE tests}
+Test $H_0$ if all explanatory variables are 0.
+\Eq{
+    LR \sim \chi^2_{k-1}
+}
+where $k$ - number of parameters estimated (and $k - 1$ - number of explanatory variables). Also, $F$-test:
+\Eq{
+    LR = 2(L_{ur} - L_r) \sim \chi^2_q
 }
 \end{multicols}
 \end{document}
